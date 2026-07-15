@@ -1,148 +1,309 @@
-import React from "react";
+import React, { useState } from "react";
+
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import AttendanceHeader from "../components/AttendanceHeader";
+import StudentTable from "../components/StudentTable";
+
+import { supabase } from "../lib/supabase";
+
 import "../styles/FacultyAttendance.css";
 
-const students = [
-  { id: 101, name: "Anita Maity" },
-  { id: 102, name: "Rahul Kumar" },
-  { id: 103, name: "Priya Das" },
-  { id: 104, name: "Amit Singh" },
-  { id: 105, name: "Sneha Patel" },
-  { id: 106, name: "Rohit Sharma" },
-];
 
 function FacultyAttendance() {
+
+
+  const [students, setStudents] = useState([]);
+
+  const [showTable, setShowTable] = useState(false);
+
+  const [attendanceInfo, setAttendanceInfo] = useState(null);
+
+  const [message, setMessage] = useState("");
+
+
+
+
+  // Load Students from Supabase
+
+  const handleLoadStudents = async (data) => {
+
+
+    setAttendanceInfo(data);
+
+
+
+    const { course, section } = data;
+
+
+
+    const { data: studentData, error } = await supabase
+
+      .from("students")
+
+      .select("*")
+
+      .eq("course", course)
+
+      .eq("section", section);
+
+
+
+
+    if (error) {
+
+
+      console.log("Attendance Error:", error);
+
+      setMessage("error . message");
+
+      return;
+
+    }
+
+
+
+
+
+    const formattedStudents = studentData.map((student)=>({
+
+
+      id: student.id,
+
+      roll: student.roll,
+
+      name: student.name,
+
+      present: true
+
+
+    }));
+
+
+
+    setStudents(formattedStudents);
+
+
+    setShowTable(true);
+
+
+    setMessage("");
+
+
+
+  };
+
+
+
+
+
+
+
+  // Save Attendance
+
+  const handleSubmitAttendance = async () => {
+
+
+    if(!attendanceInfo){
+
+      return;
+
+    }
+
+
+
+    const attendanceRecords = students.map((student)=>({
+
+
+
+      student_id: student.id,
+
+
+      attendance_date: attendanceInfo.date,
+
+
+      attendance_time: attendanceInfo.time,
+
+
+      course: attendanceInfo.course,
+
+
+      subject: attendanceInfo.subject,
+
+
+      section: attendanceInfo.section,
+
+
+      status: student.present ? "Present" : "Absent"
+
+
+
+    }));
+
+
+
+
+
+    const { error } = await supabase
+
+      .from("attendance")
+
+      .insert(attendanceRecords);
+
+
+
+
+
+    if(error){
+
+
+      console.log("Attendance Error:", error);
+
+      setMessage("error. message");
+
+
+      return;
+
+    }
+
+
+
+
+    setMessage("Attendance submitted successfully ✅");
+
+
+  };
+
+
+
+
+
+
+
+  // Not Held
+
+  const handleNotHeld = () => {
+
+
+    setShowTable(false);
+
+
+    setMessage("Class marked as Not Held");
+
+
+  };
+
+
+
+
+
+
+
   return (
-    <div className="faculty-container">
 
-      {/* Header */}
-      <div className="top-bar">
-        <input
-          type="text"
-          placeholder="Search student..."
-          className="search-box"
-        />
-      </div>
 
-      <div className="content">
+    <div className="attendance-layout">
 
-        {/* Left Side */}
-        <div className="attendance-card">
 
-          <h2>Subject Attendance</h2>
 
-          <div className="filters">
+      <Sidebar />
 
-            <select>
-              <option>Faculty</option>
-            </select>
 
-            <select>
-              <option>Program</option>
-            </select>
 
-            <select>
-              <option>Section</option>
-            </select>
+      <div className="attendance-main">
 
-            <select>
-              <option>Course</option>
-            </select>
 
-            <button className="search-btn">
-              Search
-            </button>
+
+        <Header />
+
+
+
+        <div className="attendance-content">
+
+
+
+          <div className="page-title">
+
+
+            <h2>
+              Mark Attendance
+            </h2>
+
+
+            <p>
+              Manage daily student attendance
+            </p>
+
 
           </div>
 
-          <table>
 
-            <thead>
 
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Present</th>
-                <th>Absent</th>
-                <th>Not Held</th>
-              </tr>
 
-            </thead>
 
-            <tbody>
+          <AttendanceHeader
 
-              {students.map((student) => (
+            onLoadStudents={handleLoadStudents}
 
-                <tr key={student.id}>
+          />
 
-                  <td>{student.id}</td>
 
-                  <td>{student.name}</td>
 
-                  <td>
-                    <input
-                      type="radio"
-                      name={student.id}
-                    />
-                  </td>
 
-                  <td>
-                    <input
-                      type="radio"
-                      name={student.id}
-                    />
-                  </td>
 
-                  <td>
-                    <input
-                      type="radio"
-                      name={student.id}
-                    />
-                  </td>
+          {
 
-                </tr>
+            showTable &&
 
-              ))}
 
-            </tbody>
+            <StudentTable
 
-          </table>
+              students={students}
 
-          <button className="save-btn">
-            Save Attendance
-          </button>
+              setStudents={setStudents}
+
+              onSubmit={handleSubmitAttendance}
+
+              onNotHeld={handleNotHeld}
+
+            />
+
+
+          }
+
+
+
+
+
+
+          {
+
+            message &&
+
+            <div className="attendance-message">
+
+              {message}
+
+            </div>
+
+
+          }
+
+
 
         </div>
 
-        {/* Right Side */}
-
-        <div className="summary">
-
-          <div className="box yellow">
-            <h3>240</h3>
-            <p>Total Students</p>
-          </div>
-
-          <div className="box green">
-            <h3>230</h3>
-            <p>Present Today</p>
-          </div>
-
-          <div className="box red">
-            <h3>10</h3>
-            <p>Absent Today</p>
-          </div>
-
-          <div className="box blue">
-            <h3>5</h3>
-            <p>Not Held</p>
-          </div>
-
-        </div>
 
       </div>
+
 
     </div>
+
+
   );
+
 }
+
+
 
 export default FacultyAttendance;

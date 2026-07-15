@@ -1,0 +1,245 @@
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+
+    width:270px;
+
+    background:linear-gradient(
+        135deg,
+        #14532d,
+        #166534,
+        #22c55e
+    );
+
+    color:white;
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    padding:25px 20px;
+
+}
+
+
+
+/* ===========================
+   LOGO
+=========================== */
+
+.logo-section{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:40px;
+
+}
+
+
+
+.logo{
+
+    width:55px;
+
+    height:55px;
+
+    object-fit:contain;
+
+    border-radius:50%;
+
+    background:white;
+
+    padding:5px;
+
+}
+
+
+
+.logo-section h2{
+
+    margin:0;
+
+    font-size:22px;
+
+    color:white;
+
+}
+
+
+
+.logo-section p{
+
+    margin:0;
+
+    font-size:13px;
+
+    color:#dcfce7;
+
+}
+
+
+
+
+
+/* ===========================
+   MENU
+=========================== */
+
+
+.menu{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+
+
+.menu-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    color:#f0fdf4;
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+
+
+.menu-item:hover{
+
+    background:rgba(255,255,255,0.18);
+
+}
+
+
+
+
+
+.menu-item.active{
+
+    background:white;
+
+    color:#166534;
+
+    font-weight:700;
+
+}
+
+
+
+
+
+
+.menu-item svg{
+
+    font-size:18px;
+
+}
+
+
+
+
+
+
+
+/* ===========================
+   LOGOUT
+=========================== */
+
+
+.logout{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    color:white;
+
+    background:rgba(255,255,255,0.15);
+
+}
+
+
+
+.logout:hover{
+
+    background:#dc2626;
+
+}
+
+
+
+
+
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+
+@media(max-width:900px){
+
+
+.sidebar{
+
+    width:220px;
+
+}
+
+
+.logo{
+
+    width:45px;
+
+    height:45px;
+
+}
+
+
+.menu-item{
+
+    font-size:14px;
+
+}
+
+
+}

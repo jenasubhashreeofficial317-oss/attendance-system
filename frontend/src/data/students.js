@@ -1,0 +1,76 @@
+const studentsData = [
+  {
+    id: 1,
+    roll: "22BCA001",
+    name: "Rahul Sharma",
+    course: "BCA",
+    section: "A",
+    present: true,
+  },
+  {
+    id: 2,
+    roll: "22BCA002",
+    name: "Priya Das",
+    course: "BCA",
+    section: "A",
+    present: true,
+  },
+  {
+    id: 3,
+    roll: "22BCA003",
+    name: "Aman Kumar",
+    course: "BCA",
+    section: "B",
+    present: false,
+  },
+  {
+    id: 4,
+    roll: "22BCA004",
+    name: "Sneha Roy",
+    course: "BCA",
+    section: "C",
+    present: true,
+  },
+  {
+    id: 5,
+    roll: "22MCA001",
+    name: "Neha Singh",
+    course: "MCA",
+    section: "A",
+    present: true,
+  },
+  {
+    id: 6,
+    roll: "22MCA002",
+    name: "Rohit Kumar",
+    course: "MCA",
+    section: "B",
+    present: false,
+  },
+  {
+    id: 7,
+    roll: "22BBA001",
+    name: "Anjali Das",
+    course: "BBA",
+    section: "A",
+    present: true,
+  },
+  {
+    id: 8,
+    roll: "22BBA002",
+    name: "Suman Roy",
+    course: "BBA",
+    section: "B",
+    present: true,
+  },
+  {
+    id: 9,
+    roll: "22MBA001",
+    name: "Riya Patel",
+    course: "MBA",
+    section: "A",
+    present: true,
+  }
+];
+
+export default studentsData;
